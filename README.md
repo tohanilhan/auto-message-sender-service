@@ -8,17 +8,78 @@ This project is a simple auto message sending service. System that automatically
 
 ![Diagram](image.png)
 
-## Kullanılan Teknolojiler
 
-**Backend:** Go, Fiber
+## Configuration
 
-**Database:** PostgreSQL
+API and Scheduler services are using environment variables for configuration. Configuration files can be found in the `api` and `scheduler` folders.
 
-**Cache:** Redis
+Please make sure to set the environment variables in the `.env` file before running the services.
 
-**Deployment:** Docker, Docker Compose, Makefile
+### API Configuration
 
+```bash
+STAGE_STATUS="prod"
 
+# Server settings:
+SERVER_PORT=8787
+SERVER_READ_TIMEOUT=60
+
+# API Key settings:
+API_KEY="INS.er7u2oVtHsmlqWICxMnF.pD5k8zLcYh3iR6XaO"
+        
+# Database settings:
+DB_HOST=webhook-service-webhook-postgres-svc-1
+DB_PORT=5432
+DB_USER="app_user"
+DB_PASSWORD="f9oOlr7x43IZ9HchxwB1JdVjY5a9KejK"
+DB_NAME="message_sender_service_db"
+DB_SSL_MODE="disable"
+DB_MAX_CONNECTIONS=100
+DB_MAX_IDLE_CONNECTIONS=10
+DB_MAX_LIFETIME_CONNECTIONS=2
+
+# Redis settings:
+REDIS_HOST=webhook-service-webhook-redis-svc-1
+REDIS_PORT=6379
+REDIS_PASSWORD="VMBuvVq1BfebTLqcb1J8pBJUDaLpWJ4A"
+REDIS_DB_NUMBER=0
+```
+### Scheduler Configuration
+
+We are using a webhook.site for testing purposes. You can change the `WEBHOOK_API_URL` to your own webhook URL.
+But please make sure the webhook response is in the correct format shown below.
+```json
+{
+  "message": "Accepted",
+  "messageId": "7d3c5c76-d41b-4f3d-95d5-7d3fbef92dc1"
+}
+```
+Also, you can change the `CRON_JOB_SCHEDULE` to your desired schedule.
+
+```bash
+# Webhook settings:
+WEBHOOK_API_KEY="INS.me1x9uMcyYGlhKKQVPoc.bO3j9aZwRTOcA2Ywo"
+WEBHOOK_API_URL="https://webhook.site/6e8b5e31-72b8-4bb7-9281-5ce46c9657ff"
+
+# Database settings:
+DB_HOST=webhook-service-webhook-postgres-svc-1
+DB_PORT=5432
+DB_USER="app_user"
+DB_PASSWORD="f9oOlr7x43IZ9HchxwB1JdVjY5a9KejK"
+DB_NAME="message_sender_service_db"
+DB_SSL_MODE="disable"
+DB_MAX_CONNECTIONS=100
+DB_MAX_IDLE_CONNECTIONS=10
+DB_MAX_LIFETIME_CONNECTIONS=2
+
+# Redis settings:
+REDIS_HOST=webhook-service-webhook-redis-svc-1
+REDIS_PORT=6379
+REDIS_PASSWORD="VMBuvVq1BfebTLqcb1J8pBJUDaLpWJ4A"
+REDIS_DB_NUMBER=0
+
+CRON_JOB_SCHEDULE="@every 2m"
+```
 
 ## Usage
 
@@ -31,7 +92,7 @@ Enter the project folder.
 ```bash
 cd auto-message-sender-service;
 ```
-Now, use Makefile to easily build and deploy this service.
+Now, use Makefile to easily build and deploy this service to your local environment.
 ```bash 
     make [$target]
 ```
