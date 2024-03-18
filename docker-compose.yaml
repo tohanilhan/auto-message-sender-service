@@ -17,6 +17,8 @@ services:
   api-svc:
     image: api-img
     restart: always
+    environment:
+      - TZ=${TZ}
     ports:
       - "${NETWORK_INTERFACE}:${API_SERVER_PORT}:${API_SERVER_PORT}"
     networks:
@@ -24,6 +26,8 @@ services:
 
   scheduler-svc:
     image: scheduler-img
+    environment:
+      - TZ=${TZ}
     restart: always
     networks:
       - auto-message-sender-service-network
@@ -32,6 +36,8 @@ services:
   postgres-svc:
     image: postgres-img
     restart: always
+    environment:
+      - TZ=${TZ}
     volumes:
       - ./postgres-vol:/var/lib/postgresql/data
     ports:
