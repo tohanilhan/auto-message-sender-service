@@ -113,41 +113,41 @@ If this is the first time you are deploying this service, you can use the **`mak
 #### Here are the list of all targets that can be used for this project
 
 
-| **Target** | **Description**                       |
-| :-------- | :-------------------------------- |
-| `deploy-all:`      | Build and start all containers. Use this if you did not deploy this service before|
-| `deploy-all-from-scratch:` | Build and start all containers with new volume. Use this if you want a clean deployment.|
-| `remove-all:`      | Remove all containers and images.|
-| `up-all:`          | Start all containers|
-| `down-all:`        | Stop all containers|
-| `build-redis:`     | Build redis image|
-| `redis-up:`        | Start redis container|
-| `redis-down:`      | Stop redis container|
-| `redis-logs:`      | Show redis logs|
-| `redis-remove:`    | Remove redis container and image|
-| `redis-deploy:`    | Build and start redis container with logs|
-| `redis-deploy-with-new-volume:` | Build and start redis container with logs and new volume|
-| `build-postgres:`  | Build postgres image|
-| `postgres-up:`     | Start postgres container|
-| `postgres-down:`   | Stop postgres container|
-| `postgres-logs:`   | Show postgres logs|
-| `postgres-remove:` | Remove postgres container and image|
-| `postgres-deploy:` | Build and start postgres container with logs|
-| `postgres-deploy-with-new-volume:` | Build and start postgres container with logs and new volume|
-| `api-build:`       | Build api image|
-| `api-up:`          | Start api container|
-| `api-down:`        | Stop api container|
-| `api-logs:`        | Show api logs|
-| `api-remove:`      | Remove api container and image|
-| `api-deploy:`      | Build and start api container with logs|
-| `api-deploy-from-scratch:` | Build and start api container with logs and new volume|
-| `scheduler-build:` | Build scheduler image|
-| `scheduler-up:`    | Start scheduler container|
-| `scheduler-down:`  | Stop scheduler container|
-| `scheduler-logs:`  | Show scheduler logs|
-| `scheduler-remove:`| Remove scheduler container and image|
-| `scheduler-deploy:`| Build and start scheduler container with logs|
-| `scheduler-deploy-from-scratch:` | Build and start scheduler container with logs and new volume|
+| **Target**                         | **Description**                                                                          |
+| :--------------------------------- | :--------------------------------------------------------------------------------------- |
+| `deploy-all`                      | Build and start all containers. Use this if you did not deploy this service before       |
+| `deploy-all-from-scratch`         | Build and start all containers with new volume. Use this if you want a clean deployment. |
+| `remove-all`                      | Remove all containers and images.                                                        |
+| `up-all`                          | Start all containers                                                                     |
+| `down-all`                        | Stop all containers                                                                      |
+| `build-redis`                     | Build redis image                                                                        |
+| `redis-up`                        | Start redis container                                                                    |
+| `redis-down`                      | Stop redis container                                                                     |
+| `redis-logs`                      | Show redis logs                                                                          |
+| `redis-remove`                    | Remove redis container and image                                                         |
+| `redis-deploy`                    | Build and start redis container with logs                                                |
+| `redis-deploy-with-new-volume`    | Build and start redis container with logs and new volume                                 |
+| `build-postgres`                  | Build postgres image                                                                     |
+| `postgres-up`                     | Start postgres container                                                                 |
+| `postgres-down`                   | Stop postgres container                                                                  |
+| `postgres-logs`                   | Show postgres logs                                                                       |
+| `postgres-remove`                 | Remove postgres container and image                                                      |
+| `postgres-deploy`                 | Build and start postgres container with logs                                             |
+| `postgres-deploy-with-new-volume` | Build and start postgres container with logs and new volume                              |
+| `api-build`                       | Build api image                                                                          |
+| `api-up`                          | Start api container                                                                      |
+| `api-down`                        | Stop api container                                                                       |
+| `api-logs`                        | Show api logs                                                                            |
+| `api-remove`                      | Remove api container and image                                                           |
+| `api-deploy`                      | Build and start api container with logs                                                  |
+| `api-deploy-from-scratch`         | Build and start api container with logs and new volume                                   |
+| `scheduler-build`                 | Build scheduler image                                                                    |
+| `scheduler-up`                    | Start scheduler container                                                                |
+| `scheduler-down`                  | Stop scheduler container                                                                 |
+| `scheduler-logs`                  | Show scheduler logs                                                                      |
+| `scheduler-remove`                | Remove scheduler container and image                                                     |
+| `scheduler-deploy`                | Build and start scheduler container with logs                                            |
+| `scheduler-deploy-from-scratch`   | Build and start scheduler container with logs and new volume                             |
 
 
 ## API Documentation
