@@ -23,7 +23,7 @@ go.work
 .vscode/
 
 # volume mount
-webhook-*
+*-vol
 
 prog
 

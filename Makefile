@@ -14,7 +14,7 @@ deploy-all:
 	make api-deploy
 	make scheduler-deploy
 
-## deploy-from-scratch: Build and start all containers with new volume
+## deploy-all-from-scratch: Build and start all containers with new volume
 deploy-all-from-scratch:
 	make down-all
 	make redis-deploy-with-new-volume
@@ -47,25 +47,25 @@ down-all:
 
 ## build-redis: Build redis image
 build-redis: 
-	cd redis; docker build -f Dockerfile -t webhook-redis-img .
+	cd redis; docker build -f Dockerfile -t redis-img .
 
 ## redis-up: Start redis container	
 redis-up: 
-	docker-compose up webhook-redis-svc -d
+	docker-compose up redis-svc -d
 
 ## redis-down: Stop redis container
 redis-down:
-	docker-compose down webhook-redis-svc 
+	docker-compose down redis-svc 
 
 ## redis-logs: Show redis logs
 redis-logs:
-	docker-compose logs webhook-redis-svc -f
+	docker-compose logs redis-svc -f
 
 ## redis-remove: Remove redis container and image
 redis-remove:
-	docker-compose rm -fsv webhook-redis-svc
-	docker rmi -f webhook-redis-img
-	rm -rf webhook-redis-vol
+	docker-compose rm -fsv redis-svc
+	docker rmi -f redis-img
+	rm -rf redis-vol
 
 ## redis-deploy: Build and start redis container with logs	
 redis-deploy:
@@ -80,25 +80,25 @@ redis-deploy-with-new-volume:
 
 ## build-postgres: Build postgres image
 build-postgres: 
-	cd postgresql; docker build -f Dockerfile -t webhook-postgres-img .
+	cd postgresql; docker build -f Dockerfile -t postgres-img .
 
 ## postgres-up: Start postgres container
 postgres-up:
-	docker-compose up webhook-postgres-svc -d 
+	docker-compose up postgres-svc -d 
 
 ## postgres-down: Stop postgres container
 postgres-down:
-	docker-compose down webhook-postgres-svc
+	docker-compose down postgres-svc
 
 ## postgres-logs: Show postgres logs
 postgres-logs:
-	docker-compose logs webhook-postgres-svc 
+	docker-compose logs postgres-svc 
 
 ## postgres-remove: Remove postgres container and image
 postgres-remove:
-	docker-compose rm -fsv webhook-postgres-svc
-	docker rmi -f webhook-postgres-img
-	rm -rf webhook-postgres-vol
+	docker-compose rm -fsv postgres-svc
+	docker rmi -f postgres-img
+	rm -rf postgres-vol
 
 ## postgres-deploy: Build and start postgres container with logs
 postgres-deploy:
@@ -120,24 +120,24 @@ api-build:
 	cd api; go mod download
 	cd api; CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o prog .
 
-	cd api; docker build -f Dockerfile -t webhook-api-img .
+	cd api; docker build -f Dockerfile -t api-img .
 
 ## api-up: Start api container
 api-up:
-	docker-compose up webhook-api-svc -d
+	docker-compose up api-svc -d
 
 ## api-down: Stop api container
 api-down:
-	docker-compose down webhook-api-svc
+	docker-compose down api-svc
 
 ## api-logs: Show api logs
 api-logs:
-	docker-compose logs webhook-api-svc -f
+	docker-compose logs api-svc -f
 
 ## api-remove: Remove api container and image
 api-remove:
-	docker-compose rm -fsv webhook-api-svc
-	docker rmi -f webhook-api-img
+	docker-compose rm -fsv api-svc
+	docker rmi -f api-img
 
 ## api-deploy: Build and start api container with logs
 api-deploy:
@@ -158,24 +158,24 @@ scheduler-build:
 	cd scheduler; go mod download
 	cd scheduler; CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o prog .
 
-	cd scheduler; docker build -f Dockerfile -t webhook-scheduler-img .
+	cd scheduler; docker build -f Dockerfile -t scheduler-img .
 
 ## scheduler-up: Start scheduler container
 scheduler-up:
-	docker-compose up webhook-scheduler-svc -d
+	docker-compose up scheduler-svc -d
 
 ## scheduler-down: Stop scheduler container
 scheduler-down:
-	docker-compose down webhook-scheduler-svc
+	docker-compose down scheduler-svc
 
 ## scheduler-logs: Show scheduler logs
 scheduler-logs:
-	docker-compose logs webhook-scheduler-svc -f
+	docker-compose logs scheduler-svc -f
 
 ## scheduler-remove: Remove scheduler container and image
 scheduler-remove:
-	docker-compose rm -fsv webhook-scheduler-svc
-	docker rmi -f webhook-scheduler-img
+	docker-compose rm -fsv scheduler-svc
+	docker rmi -f scheduler-img
 
 ## scheduler-deploy: Build and start scheduler container with logs
 scheduler-deploy:

@@ -1,53 +1,53 @@
-# docker compose file for 'webhook deploy'
+# docker compose file for 'auto-message-sender-service'
 version: "3.9"
 
-name: webhook-service
+name: auto-message-sender-service
 
 networks:
-  webhook-network:
-    name: webhook-network
+  auto-message-sender-service-network:
+    name: auto-message-sender-service-network
     driver: bridge
 
 volumes:
-  webhook-postgres-vol:
-  webhook-redis-vol:
+  postgres-vol:
+  redis-vol:
 
 services:
   # api
-  webhook-api-svc:
-    image: webhook-api-img
+  api-svc:
+    image: api-img
     restart: always
     ports:
       - "${NETWORK_INTERFACE}:${API_SERVER_PORT}:${API_SERVER_PORT}"
     networks:
-      - webhook-network
+      - auto-message-sender-service-network
 
-  webhook-scheduler-svc:
-    image: webhook-scheduler-img
+  scheduler-svc:
+    image: scheduler-img
     restart: always
     networks:
-      - webhook-network
+      - auto-message-sender-service-network
 
   # db
-  webhook-postgres-svc:
-    image: webhook-postgres-img
+  postgres-svc:
+    image: postgres-img
     restart: always
     volumes:
-      - ./webhook-postgres-vol:/var/lib/postgresql/data
+      - ./postgres-vol:/var/lib/postgresql/data
     ports:
       - "${NETWORK_INTERFACE}:${POSTGRESQL_PORT}:5432"
     networks:
-      - webhook-network
+      - auto-message-sender-service-network
 
   # redis
-  webhook-redis-svc:
-    image: webhook-redis-img
+  redis-svc:
+    image: redis-img
     restart: always
     environment:
       - TZ=${TZ}
     volumes:
-      - ./webhook-redis-vol:/data
+      - ./redis-vol:/data
     ports:
       - "${NETWORK_INTERFACE}:${REDIS_PORT}:6379"
     networks:
-      - webhook-network
+      - auto-message-sender-service-network
