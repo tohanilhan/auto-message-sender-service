@@ -1,8 +1,7 @@
 # Dockerfile for 'message-sender-service-postgresl' database
-FROM postgres:latest
+FROM postgres:alpine3.19
 
 # Environments
-ENV TZ=UTC
 ENV POSTGRES_USER=management_user
 ENV POSTGRES_PASSWORD=HwcGNMU0KTpABxgJLPxfHPHZKgEYUqRE
 ENV POSTGRES_DB=message_sender_service_db

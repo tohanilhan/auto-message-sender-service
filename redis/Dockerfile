@@ -1,5 +1,5 @@
 # Dockerfile for 'klearis-redis-auth'
-FROM redis:7.0-alpine
+FROM redis:alpine3.19
 
 
 # set timezone
