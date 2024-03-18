@@ -6,7 +6,7 @@ This project is a simple auto message sending service. System that automatically
 
 ## System Diagram
 
-![Diagram](image.png)
+![Diagram](api/docs/image.png)
 
 
 ## Configuration
@@ -46,8 +46,9 @@ REDIS_DB_NUMBER=0
 ```
 ### Scheduler Configuration
 
-We are using a webhook.site for testing purposes. You can change the `WEBHOOK_API_URL` to your own webhook URL.
-But please make sure the webhook response is in the correct format shown below.
+We are using webhook.site for testing purposes. You have to change the `WEBHOOK_API_URL` to your own webhook URL.
+
+> But please make sure the webhook response is in the correct format shown below.
 ```json
 {
   "message": "Accepted",
@@ -90,7 +91,7 @@ git clone https://github.com/tohanilhan/auto-message-sender-service.git
 
 Enter the project folder.
 ```bash
-cd auto-message-sender-service;
+cd auto-message-sender-service
 ```
 Now, use Makefile to easily build and deploy this service to your local environment.
 ```bash 
@@ -107,15 +108,16 @@ Now, use Makefile to easily build and deploy this service to your local environm
 
 The only difference between **`make deploy-all`** and **`make deploy-from-scratch`** commands is that with make deploy-from-scratch, volumes are deleted before the deployment process begins.
 
+If this is the first time you are deploying this service, you can use the **`make deploy-all`** command. If you want to deploy the service again, you can use the **`make deploy-from-scratch`** command to start with a clean deployment.
 
 #### Here are the list of all targets that can be used for this project
 
 
 | **Target** | **Description**                       |
 | :-------- | :-------------------------------- |
-| `deploy-all:`      | Build and start all containers|
-| `deploy-from-scratch:` | Build and start all containers with new volume|
-| `remove-all:`      | Remove all containers and images|
+| `deploy-all:`      | Build and start all containers. Use this if you did not deploy this service before|
+| `deploy-all-from-scratch:` | Build and start all containers with new volume. Use this if you want a clean deployment.|
+| `remove-all:`      | Remove all containers and images.|
 | `up-all:`          | Start all containers|
 | `down-all:`        | Stop all containers|
 | `build-redis:`     | Build redis image|
@@ -147,6 +149,23 @@ The only difference between **`make deploy-all`** and **`make deploy-from-scratc
 | `scheduler-deploy:`| Build and start scheduler container with logs|
 | `scheduler-deploy-from-scratch:` | Build and start scheduler container with logs and new volume|
 
+
+## API Documentation
+
+After the deployment, you can access the API documentation from the following link:
+[Swagger Documentation](http://127.0.0.1:8787/api/v1/swagger/index.html)
+
+To access the API endpoints, you need to provide the API key Swagger UI or set the `x-ins-api-auth-key` header in your requests. `API_KEY` can be found in the `.env` file on the provided link below.
+[.env](api/.env)
+
+### Set API Key in Swagger UI
+
+![Swagger](api/docs/swagger_set_api_key.png)
+
+Click on the `Authorize` button on the top right corner of the page. A popup will appear. 
+
+![Swagger](api/docs/swagger_set_api_key_popup.png)
+Then, enter the API key in the `Value` field and click on the `Authorize` button.
 
 ## Tech Stack
 
