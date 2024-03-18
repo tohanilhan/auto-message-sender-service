@@ -156,6 +156,7 @@ After the deployment, you can access the API documentation from the following li
 [Swagger Documentation](http://127.0.0.1:8787/api/v1/swagger/index.html)
 
 To access the API endpoints, you need to provide the API key Swagger UI or set the `x-ins-api-auth-key` header in your requests. `API_KEY` can be found in the `.env` file on the provided link below.
+
 [.env](api/.env)
 
 ### Set API Key in Swagger UI
