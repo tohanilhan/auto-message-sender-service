@@ -29,7 +29,7 @@ func NewMessageSender(url string) *MessageSender {
 	}
 }
 
-func (s *MessageSender) Send(messages []models.Message) error {
+func (s *MessageSender) Send(messages []models.Message) {
 	// Send message concurrently
 
 	// ch := make(chan string, len(messages))
@@ -53,7 +53,6 @@ func (s *MessageSender) Send(messages []models.Message) error {
 	}
 	wg.Wait()
 
-	return nil
 }
 
 func (s *MessageSender) handleRequest(message models.Message) ([]byte, error) {

@@ -35,7 +35,11 @@ func CreateInstance(messageSender *message.MessageSender) *Scheduler {
 		defer lock.Unlock()
 		if MessageScheduler == nil {
 			MessageScheduler = NewScheduler(messageSender)
+		} else {
+			fmt.Println("Scheduler instance already created")
 		}
+	} else {
+		fmt.Println("Scheduler instance already created")
 	}
 	return MessageScheduler
 }
@@ -71,10 +75,7 @@ func (s *Scheduler) StartScheduler() {
 			}
 
 			// Trigger message sending process
-			err = s.messageSender.Send(messages)
-			if err != nil {
-				log.Println(err)
-			}
+			s.messageSender.Send(messages)
 		} else {
 			fmt.Println("Auto sending is off")
 		}
