@@ -32,35 +32,31 @@ func NewMessageSender(url string) *MessageSender {
 func (s *MessageSender) Send(messages []models.Message) error {
 	// Send message concurrently
 
-	ch := make(chan string, len(messages))
+	// ch := make(chan string, len(messages))
+
+	var wg sync.WaitGroup
+	wg.Add(len(messages))
 
 	for _, message := range messages {
 		go func(message models.Message) {
-
 			// handle request
 			bodyByte, err := s.handleRequest(message)
-			if err != nil {
-				// Send error message to channel
-				ch <- err.Error()
+			if err == nil {
+				// Handle response
+				s.handleResponse(string(bodyByte), message.ID)
 			} else {
-				// Send message to channel
-				ch <- string(bodyByte)
+				// log error
+				log.Println(err)
 			}
+			wg.Done()
 		}(message)
 	}
-
-	// Handle response
-	err := s.handleResponse(ch, messages)
-	if err != nil {
-		// log error
-		log.Println(err)
-	}
+	wg.Wait()
 
 	return nil
 }
 
 func (s *MessageSender) handleRequest(message models.Message) ([]byte, error) {
-
 	// Create a new requester
 	requester := insrequester.NewRequester().Load()
 
@@ -105,55 +101,48 @@ func (s *MessageSender) handleRequest(message models.Message) ([]byte, error) {
 	return boyByte, nil
 }
 
-func (s *MessageSender) handleResponse(ch chan string, message []models.Message) error {
+func (s *MessageSender) handleResponse(response string, messageId string) {
 
 	// Wait for all messages to be sent
-	for _, message := range message {
-		response := <-ch
-		log.Println(response)
-		// Handle response
-		if !strings.Contains(response, "error") {
-			responseStruct, err := s.unmarshalResponse(response)
+	fmt.Println(response)
+	// Handle response
+	if !strings.Contains(response, "error") {
+		responseStruct, err := s.unmarshalResponse(response)
+		if err != nil {
+			// log error
+			log.Println(err)
+		}
+
+		timestamp := time.Now().UTC()
+		s.SentTime = timestamp
+
+		// Update db and cache response concurrently
+		wg := sync.WaitGroup{}
+		wg.Add(2)
+
+		go func() {
+			defer wg.Done()
+			// Update db
+			err = s.updateMessageOnDatabase(responseStruct, messageId)
 			if err != nil {
 				// log error
 				log.Println(err)
-				continue
 			}
+		}()
 
-			timestamp := time.Now().UTC()
-			s.SentTime = timestamp
+		go func() {
+			defer wg.Done()
+			// cache response
+			err = s.storeResponseToCache(responseStruct)
+			if err != nil {
+				// log error
+				log.Println(err)
+			}
+		}()
 
-			// Update db and cache response concurrently
-			wg := sync.WaitGroup{}
-			wg.Add(2)
-
-			go func() {
-				defer wg.Done()
-				// Update db
-				err = s.updateMessageOnDatabase(responseStruct, message.ID)
-				if err != nil {
-					// log error
-					log.Println(err)
-				}
-			}()
-
-			go func() {
-				defer wg.Done()
-				// cache response
-				err = s.storeResponseToCache(responseStruct)
-				if err != nil {
-					// log error
-					log.Println(err)
-				}
-			}()
-
-			wg.Wait()
-			// log response
-			return nil
-		}
+		wg.Wait()
+		// log response
 	}
-
-	return fmt.Errorf(<-ch)
 }
 
 func (s *MessageSender) unmarshalResponse(message string) (*models.SendMessageResponse, error) {
