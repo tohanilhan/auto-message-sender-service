@@ -110,6 +110,7 @@ func (s *MessageSender) handleResponse(ch chan string, message []models.Message)
 	// Wait for all messages to be sent
 	for _, message := range message {
 		response := <-ch
+		log.Println(response)
 		// Handle response
 		if !strings.Contains(response, "error") {
 			responseStruct, err := s.unmarshalResponse(response)

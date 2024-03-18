@@ -16,6 +16,7 @@ deploy-all:
 
 ## deploy-from-scratch: Build and start all containers with new volume
 deploy-all-from-scratch:
+	make down-all
 	make redis-deploy-with-new-volume
 	make postgres-deploy-with-new-volume
 	sleep 5;
@@ -26,16 +27,23 @@ deploy-all-from-scratch:
 remove-all:
 	make redis-remove
 	make postgres-remove
+	make api-remove
+	make scheduler-remove
 
 ## up-all: Start all containers
 up-all:
 	make redis-up
 	make postgres-up
+	sleep 5;
+	make api-up
+	make scheduler-up
 
 ## down-all: Stop all containers
 down-all:
 	make redis-down
 	make postgres-down
+	make api-down
+	make scheduler-down
 
 ## build-redis: Build redis image
 build-redis: 
