@@ -1,0 +1,89 @@
+basePath: /api/v1
+definitions:
+  models.Message:
+    properties:
+      messageId:
+        type: string
+      sent_time:
+        type: string
+    type: object
+info:
+  contact:
+    email: atahantohan@gmail.com
+    name: Tohan İlhan
+    url: https://github.com/tohanilhan/auto-message-sender-service
+  description: This is an API for automatic message sender service. Routes are protected
+    with an API key so please use an API key to access private routes. You can find
+    the API key in the .env file of the project. You can also find the API key in
+    the source code of the project on GitHub. The API key should be passed in the
+    header of the request with the key name x-ins-api-auth-key.
+  title: Auto Message Sender Service API
+  version: "1.0"
+paths:
+  /change-auto-sending/{option}:
+    post:
+      consumes:
+      - '*/*'
+      description: This is the endpoint for changing the behaviour of the message
+        sending service.
+      parameters:
+      - description: Option to on/off auto sending messages
+        enum:
+        - "ON"
+        - "OFF"
+        in: path
+        name: option
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns the current status of the auto sending feature.
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Can be used to start/stop auto messages sending feature.
+      tags:
+      - Config
+  /messages:
+    get:
+      consumes:
+      - application/json
+      description: Can be used to get all sent messages from Redis.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Message'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all sent messages from Redis.
+      tags:
+      - Messages
+  /ping:
+    get:
+      consumes:
+      - '*/*'
+      description: Check if the server is alive
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns PONG if the server is alive
+          schema:
+            type: string
+      summary: Check if the server is alive
+      tags:
+      - Ping
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: x-ins-api-auth-key
+    type: apiKey
+swagger: "2.0"
