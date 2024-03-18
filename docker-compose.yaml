@@ -1,0 +1,53 @@
+# docker compose file for 'webhook deploy'
+version: "3.9"
+
+name: webhook-service
+
+networks:
+  webhook-network:
+    name: webhook-network
+    driver: bridge
+
+volumes:
+  webhook-postgres-vol:
+  webhook-redis-vol:
+
+services:
+  # api
+  webhook-api-svc:
+    image: webhook-api-img
+    restart: always
+    ports:
+      - "${NETWORK_INTERFACE}:${API_SERVER_PORT}:${API_SERVER_PORT}"
+    networks:
+      - webhook-network
+
+  webhook-scheduler-svc:
+    image: webhook-scheduler-img
+    restart: always
+    networks:
+      - webhook-network
+
+  # db
+  webhook-postgres-svc:
+    image: webhook-postgres-img
+    restart: always
+    volumes:
+      - ./webhook-postgres-vol:/var/lib/postgresql/data
+    ports:
+      - "${NETWORK_INTERFACE}:${POSTGRESQL_PORT}:5432"
+    networks:
+      - webhook-network
+
+  # redis
+  webhook-redis-svc:
+    image: webhook-redis-img
+    restart: always
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ./webhook-redis-vol:/data
+    ports:
+      - "${NETWORK_INTERFACE}:${REDIS_PORT}:6379"
+    networks:
+      - webhook-network
