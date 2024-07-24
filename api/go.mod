@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/caarlos0/env/v6 v6.10.1
-	github.com/gofiber/fiber/v2 v2.52.2
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/gofiber/swagger v1.0.0
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/jmoiron/sqlx v1.3.5
